@@ -1,15 +1,16 @@
 (ns rhizome.routes.services
   (:require
-    [reitit.swagger :as swagger]
-    [reitit.swagger-ui :as swagger-ui]
-    [reitit.ring.coercion :as coercion]
-    [reitit.coercion.spec :as spec-coercion]
-    [reitit.ring.middleware.muuntaja :as muuntaja]
-    [reitit.ring.middleware.multipart :as multipart]
-    [reitit.ring.middleware.parameters :as parameters]
-    [rhizome.middleware.formats :as formats]
-    [ring.util.http-response :refer :all]
-    [clojure.java.io :as io]))
+   [reitit.swagger :as swagger]
+   [reitit.swagger-ui :as swagger-ui]
+   [reitit.ring.coercion :as coercion]
+   [reitit.coercion.spec :as spec-coercion]
+   [reitit.ring.middleware.muuntaja :as muuntaja]
+   [reitit.ring.middleware.multipart :as multipart]
+   [reitit.ring.middleware.parameters :as parameters]
+   [rhizome.middleware.formats :as formats]
+   [ring.util.http-response :refer :all]
+   [clojure.java.io :as io]
+   [rhizome.http-client :as hc]))
 
 (defn service-routes []
   ["/api"
@@ -87,4 +88,11 @@
                         :headers {"Content-Type" "image/png"}
                         :body (-> "public/img/warning_clojure.png"
                                   (io/resource)
-                                  (io/input-stream))})}}]]])
+                                  (io/input-stream))})}}]]
+
+   ["/search"
+    {:get {:summary "searching tagged posts on sof.com"
+           :parameters {:query {:x int?, :y int?}}
+            :responses {200 {:body {:total pos-int?}}}
+            :handler (hc/get-data)}
+     }]])

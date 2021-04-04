@@ -1,14 +1,15 @@
 (ns rhizome.core
   (:require
-    [reagent.core :as r]
-    [reagent.dom :as rdom]
-    [goog.events :as events]
-    [goog.history.EventType :as HistoryEventType]
-    [markdown.core :refer [md->html]]
-    [rhizome.ajax :as ajax]
-    [ajax.core :refer [GET POST]]
-    [reitit.core :as reitit]
-    [clojure.string :as string])
+   [reagent.core :as r]
+   [reagent.dom :as rdom]
+   [goog.events :as events]
+   [goog.history.EventType :as HistoryEventType]
+   [markdown.core :refer [md->html]]
+   [rhizome.ajax :as ajax]
+   [ajax.core :refer [GET POST]]
+   [reitit.core :as reitit]
+   [clojure.string :as string]
+   [rhizome.http-client :as hc])
   (:import goog.History))
 
 (defonce session (r/atom {:page :home}))
@@ -38,7 +39,8 @@
 (defn about-page []
   [:section.section>div.container>div.content
    [:p "^__^"]
-   [:img {:src "/img/warning_clojure.png"}]])
+   [:img {:src "/img/warning_clojure.png"}]
+   [:page (hc/get-data)]])
 
 
 (defn home-page []
